@@ -1,0 +1,157 @@
+<html>
+	<head>
+		<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+	</head>
+
+	<body>
+		<canvas id="gameCanvas" style="border:1px solid #000000;">
+		</canvas>
+		<script>
+
+			createImage = function(nameOfImage){
+				var boxImage = new Image();
+				boxImage.src = nameOfImage;		
+				return boxImage;			
+			};
+
+			createBox = function(speed,x,y){
+				var box = {
+					speed: speed, // movement
+					x: x,
+					y: y 
+				};
+				return box;
+			};
+
+			createFloor = function(ctxt,canvas){
+				ctxt.beginPath();
+
+				var bottomThird = canvas.height - canvas.height/3
+
+				ctxt.moveTo(0, bottomThird);
+				ctxt.lineTo(canvas.width, bottomThird);
+				ctxt.stroke();
+			}
+
+			setEventListeners = function(keys){
+				window.addEventListener("keydown", function (event) {
+					keys[event.key]=true;
+					//console.log(keys);
+				}, false);
+
+				window.addEventListener("keyup", function (event) {
+					delete keys[event.key];
+					//console.log(keys);
+				}, false);	
+			}
+
+			playerInputUpdate = function(keys,box,boxImage,canvas,ctx){
+				//console.log(keys);
+				if ('a' in keys) { // Player holding left
+					box.x -= box.speed;
+					ctx.clearRect(box.x, box.y, 64, 64);
+					ctx.drawImage(boxImage,box.x,box.y);
+					
+					//console.log(box.x);
+				}
+				if ('d' in keys) { // Player holding right
+					box.x += box.speed;
+					
+					ctx.clearRect(box.x, box.y, 64, 64);
+					ctx.drawImage(boxImage,box.x,box.y);
+					//console.log(box.x);			
+				}
+
+				if(' ' in keys){
+					drawJump(ctx, box, boxImage);
+
+				}
+				
+				createFloor(ctx,canvas);
+				
+			}
+
+			drawJump =  function(ctx, box, boxImage){
+				// finsh jump then add platfroms
+
+				//use a for loop
+				ctx.clearRect(box.x, box.y, 64, 64);
+
+				var orginal_y = box.y
+				console.log("Jump");
+				box.y -= 50
+				ctx.drawImage(boxImage,box.x,box.y);
+				ctx.clearRect(box.x, box.y, 64, 64);
+
+				box.y = orginal_y; 	
+			}
+
+			itemsLoop = function(box,canvas,screenNum){
+				if(box.x>canvas.width +10){
+					screenNum++;
+					box.x = -10;
+					console.log(screenNum);	
+				}
+
+				if(box.x<-40){
+					box.x = canvas.width+10;
+					screenNum--;
+					console.log(screenNum);
+				}
+				return screenNum;
+
+			}
+
+			drawIntro = function(runOnce, ctx, image, xpos, ypos){		
+				if(!runOnce){
+					runOnce = true;
+					ctx.drawImage(image,xpos,ypos);
+				}
+			}
+
+			function hope(){
+				var obesticles = {};
+				var runOnce = false;
+				var screen = 0;
+				var canvas = document.getElementById("gameCanvas");
+				var ctx = canvas.getContext("2d");
+
+				canvas.height = $(document).height()/2;
+				canvas.width = $(document).width()/2;
+
+				var floor = canvas.height/2;	
+
+				var boxImage = createImage("Person.png");
+			 	var box = createBox(10,0,floor);
+
+			 	var placeHolderImage = createImage("Placeholder.png");
+
+				window.onload = function(){		
+					ctx.drawImage(boxImage,box.x,box.y);	
+					createFloor(ctx,canvas);
+				};
+
+				var keysDown = {};
+
+				setEventListeners(keysDown);
+
+				setInterval(function(){
+					playerInputUpdate(keysDown,box,boxImage,canvas,ctx);
+					screen = itemsLoop(box,canvas,screen);
+					//.log(screen);
+					if(screen==1){
+						drawIntro(runOnce, ctx, placeHolderImage, canvas.width/2, canvas.height/2);
+					}
+					else{
+						//ctx.clearRect(0, 0, canvas.width, canvas.height);
+					}
+				},50);
+
+			}
+			
+			hope();
+
+		</script>
+
+	</body>
+</html>
