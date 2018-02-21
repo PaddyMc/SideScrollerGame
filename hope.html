@@ -1,11 +1,32 @@
 <html>
 	<head>
-		<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+		<title>IPFS Game</title>
+  		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 
 	<body>
-		<canvas id="gameCanvas" style="border:1px solid #000000;">
-		</canvas>
+	<div class="jumbotron text-center">
+	  <h1>Simple game hosted on IPFS</h1>
+	  <p>"a" moves left, "s" moves right, "space" turns you invisible</p> 
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body">
+		<div class="row">
+        	<div class="col-sm-6 col-sm-offset-3">
+            <canvas id="gameCanvas" style="border:1px solid #000000;"/>
+        	</div>
+    	</div>
+			
+		</div>
+	</div>
+	<div class="jumbotron text-center">
+	  <h1></h1>
+	  <p></p> 
+	</div>
 		<script>
 
 			createImage = function(nameOfImage){
@@ -43,6 +64,9 @@
 					delete keys[event.key];
 					//console.log(keys);
 				}, false);	
+
+				//$(document).bind("keydown", "left", function() { ... });
+
 			}
 
 			playerInputUpdate = function(keys,box,boxImage,canvas,ctx){
@@ -64,7 +88,6 @@
 
 				if(' ' in keys){
 					drawJump(ctx, box, boxImage);
-
 				}
 				
 				createFloor(ctx,canvas);
@@ -135,18 +158,22 @@
 
 				setEventListeners(keysDown);
 
-				setInterval(function(){
-					playerInputUpdate(keysDown,box,boxImage,canvas,ctx);
+				/*setInterval(function(){
+					
+				},50);
+*/
+				var FPS = 60;
+				setInterval(function() {
+				  playerInputUpdate(keysDown,box,boxImage,canvas,ctx);
 					screen = itemsLoop(box,canvas,screen);
 					//.log(screen);
 					if(screen==1){
 						drawIntro(runOnce, ctx, placeHolderImage, canvas.width/2, canvas.height/2);
 					}
 					else{
-						//ctx.clearRect(0, 0, canvas.width, canvas.height);
+						//ctx.clearRect(0, 0, canvas.width, canvas.height);	
 					}
-				},50);
-
+				}, 1000/FPS);
 			}
 			
 			hope();
@@ -154,4 +181,32 @@
 		</script>
 
 	</body>
+
+
+
+
+  
+<!-- <div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <h3>Column 1</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Column 2</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+    <div class="col-sm-4">
+      <h3>Column 3</h3>        
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+    </div>
+  </div>
+</div> -->
+
+</body>
+</html>
+
 </html>
