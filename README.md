@@ -1,8 +1,9 @@
 # SideScrollerGame
-Java Script side scrolling game,
+<h3>Java Script side scrolling game</h3>
 
-Uses bootstrap and jQuery
+<p>Uses bootstrap and jQuery</p>
 
-hosted on ipfs: https://gateway.ipfs.io/ipfs/Qmb8nntCnVeCvNmggijGpCNmwXKa8WkKT4w7ikJiLpmXE7/hope.html
+<p>hosted on ipfs: https://gateway.ipfs.io/ipfs/QmQ8apf9wsXfZcQL7qhxSbN8JgAyruK39uu5DjYPTZpxB3/hope.html</p>
 
-http://localhost:8080/ipfs/QmQ8apf9wsXfZcQL7qhxSbN8JgAyruK39uu5DjYPTZpxB3/hope.html
+//old: https://gateway.ipfs.io/ipfs/Qmb8nntCnVeCvNmggijGpCNmwXKa8WkKT4w7ikJiLpmXE7/hope.html
+
